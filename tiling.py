@@ -133,28 +133,6 @@ class Tiling:
         return [((qi*self.scale, qj*self.scale), k) for ((qi, qj), k) in self.tiling_pattern.tile_shapes]
 
 
-def crop_to_shape(im, shape):
-    # this uses wxh shapes, rather than rowxcol shapes
-    a, b = shape
-    w, h = im.size
-    if w*b < h*a:
-        im = im.transpose(Image.TRANSPOSE)
-        w, h = im.size
-        a, b = b, a
-        transposed = True
-    else:
-        transposed = False
-
-    out_h = h
-    out_w = h*a // b
-    out_x = (w - out_w) // 2
-    out_y = 0
-
-    out = im.crop((out_x, out_y, out_x + out_w, out_y + out_h))
-
-    return out.transpose(Image.TRANSPOSE) if transposed else out
-
-
 if __name__ == '__main__':
     from skimage import io
     import numpy as np
